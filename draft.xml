@@ -1,0 +1,35 @@
+<!--
+Limitations of current approaches
+
+    - no provision for router reboots to learn previously delegated prefixes
+    - no provision for multiple prefixes delegated from multiple routers
+    - no support for provisioning domains [RFC7556]
+
+want to preserve the security afforded by RA guard [citation], so don't
+limit the new protocol to follow RAs closely.
+
+don't modify RA directly, to more easily support network extension on shared
+links.
+
+New ND option: Network Extension
+subtype:
+    - Solicitation (NES)
+    - Assignment (NEA)
+    - Report (NER)
+
+NES:
+    - sent to routers whose RAs we've processed and accepted
+    - MUST be unicast
+    - contains either one or more DP options or a PVD option with
+      one or more DP options (but not both?)
+
+NEA:
+    - sent to NES, unicast
+
+NER:
+    - sent to NES, unicast, or sent to ff02::requesting_routers
+    - nodes MUST drop NERs that are from routers from which they
+      have not yet received, processed and accepted a RA
+
+    - reponse is to to start NES for that router
+-->
