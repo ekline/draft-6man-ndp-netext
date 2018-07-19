@@ -16,7 +16,8 @@ Expires: January 20, 2019
 
 Abstract
 
-   A protocol for dynamically extending an IPv6 network.
+   This document describes a protocol that uses new options in the IPv6
+   Neighbor Discovery Protocol [RFC4861] to extend IPv6 networks.
 
 Status of This Memo
 
@@ -55,7 +56,6 @@ Copyright Notice
 
 
 
-
 Kline                   Expires January 20, 2019                [Page 1]
 
 Internet-Draft         IPv6 NDP Network Extension              July 2018
@@ -83,6 +83,11 @@ Table of Contents
               DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
               editor.org/info/rfc2119>.
 
+   [RFC4861]  Narten, T., Nordmark, E., Simpson, W., and H. Soliman,
+              "Neighbor Discovery for IP version 6 (IPv6)", RFC 4861,
+              DOI 10.17487/RFC4861, September 2007, <https://www.rfc-
+              editor.org/info/rfc4861>.
+
 Author's Address
 
    Erik Kline
@@ -90,11 +95,6 @@ Author's Address
    Roppongi 6-10-1, 44th Floor
    Minato, Tokyo  106-6144
    Japan
-
-
-
-
-
 
 
 
