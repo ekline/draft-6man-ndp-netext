@@ -4,13 +4,12 @@
 
 Network Working Group                                           E. Kline
 Internet-Draft                                              Google Japan
-Updates: 7710 (if approved)                                July 19, 2018
-Intended status: Standards Track
+Intended status: Standards Track                           July 19, 2018
 Expires: January 20, 2019
 
 
          IPv6 Neighbor Discovery Protocol for Network Extension
-                    draft-ekwk-capport-rfc7710bis-00
+                    draft-sixxers-6man-ndp=netext-00
 
 Abstract
 
@@ -47,6 +46,7 @@ Copyright Notice
    include Simplified BSD License text as described in Section 4.e of
    the Trust Legal Provisions and are provided without warranty as
    described in the Simplified BSD License.
+
 
 
 
