@@ -9,7 +9,7 @@ Expires: January 20, 2019
 
 
          IPv6 Neighbor Discovery Protocol for Network Extension
-                    draft-sixxers-6man-ndp=netext-00
+                    draft-sixxers-6man-ndp-netext-00
 
 Abstract
 

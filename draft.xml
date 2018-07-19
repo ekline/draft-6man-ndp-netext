@@ -4,7 +4,7 @@
 <!ENTITY rfc4861 PUBLIC "" ".//reference.RFC.4861.xml">
 ]>
 <!-- WK: Set category, IPR, docName -->
-<rfc category="std" docName="draft-sixxers-6man-ndp=netext-00"
+<rfc category="std" docName="draft-sixxers-6man-ndp-netext-00"
      ipr="trust200902"
      >
   <?xml-stylesheet type='text/xsl' href='rfc2629.xslt' ?>
