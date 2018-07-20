@@ -3,6 +3,8 @@
 <!ENTITY rfc2119 PUBLIC "" "./reference.RFC.2119.xml">
 <!ENTITY rfc4861 PUBLIC "" "./reference.RFC.4443.xml">
 <!ENTITY rfc4861 PUBLIC "" "./reference.RFC.4861.xml">
+<!ENTITY rfc6105 PUBLIC "" "./reference.RFC.6105.xml">
+<!ENTITY rfc7556 PUBLIC "" "./reference.RFC.7556.xml">
 <!ENTITY I-D.ietf-intarea-provisioning-domains PUBLIC "" "./reference.I-D.ietf-intarea-provisioning-domains.xml">
 ]>
 <!-- WK: Set category, IPR, docName -->
@@ -32,7 +34,9 @@ Limitations of current approaches
 
 NOTE: Update the clause that says routers don't listen to RAs.
 
-want to preserve the security afforded by RA guard [citation], so don't
+Consider implications for router control plane.
+
+want to preserve the security afforded by RA guard [RFC6105], so don't
 limit the new protocol to follow RAs closely.
 
 don't modify RA directly, to more easily support network extension on shared
@@ -53,8 +57,11 @@ NEA may in RIOs which the receiver SHOULD add to the relevant routing table.
 NES, NEA, NER MAY include a Nonce option. If included, all subsequent
 communications which result MUST include this Nonce. (the value of this?)
 
-New ND option: Network Extension
-subtype:
+Allocating routers MAY NOT issue an NEA unless and until NUD has completed for
+the requesting node.
+
+New ND message: Network Extension
+Network Extension message Codes:
     - Solicitation (NES)
     - Allocation (NEA)
     - Report (NER)
@@ -110,13 +117,42 @@ This document describes a protocol that uses new options in the IPv6
 Neighbor Discovery Protocol <xref target="RFC4861"/> to extend IPv6 networks.
 The approach described has several advantages over existing techniques, chief
 among them the ability to work with the Provisioning Domain (PvD) architecture
-<xref target="I-D.ietf-intarea-provisioning-domains"/>.
+(<xref target="RFC7556"/>,
+<xref target="I-D.ietf-intarea-provisioning-domains"/>).
       </t>
     </abstract>
   </front>
 
   <middle>
     <section title="Introduction">
+      <t>
+This document describes a protocol that uses new options in the IPv6
+Neighbor Discovery Protocol <xref target="RFC4861"/> to extend IPv6 networks.
+The approach described has several advantages over existing techniques, chief
+among them the ability to work with the Provisioning Domain (PvD) architecture
+(<xref target="RFC7556"/>,
+<xref target="I-D.ietf-intarea-provisioning-domains"/>).
+      </t>
+
+      <t></t>
+
+      <section title="Terminology">
+        <t>
+Requesting Node: a node (a router, a host, a node running within another node
+i.e. in  a VM) attempting to extend the IPv6 network. These nodes listen for,
+process, and can accept RAs (i.e. program routes as learned from the RA).
+        </t>
+        <t>
+Allocating Router: a node (a router, or a node running other nodes within itself
+i.e. in a VM) configured to allocate resources required for network extension
+to a requesting node and able to act as a router for some destinations not
+contained within any of the allocated prefixes. (Note that an allocating router
+that has temporarily exhausted resources for allocation, e.g. has already
+delegated all possible prefixes to requesters, is still considered an allocating
+router, albeit an exhausted one.)
+        </t>
+      </section>
+
       <section title="Requirements Notation">
         <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
         "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this
@@ -125,7 +161,45 @@ among them the ability to work with the Provisioning Domain (PvD) architecture
       </section>
     </section>
 
-    <section title="Network Extension Message">
+    <section title="Network Extension Overview">
+      <t>
+The Network Extension protocol is designed to preserve the security model of
+RA Guard (<xref target="RFC6105"/>), while offering requesting nodes the means
+to request an extension of the network from multiple routers and/or from
+multiple Provisioning Domains (<xref target="RFC7556"/>). It also supports
+models where one or more on-link prefixes may be shared by multiple hosts while
+requesting nodes may be allocated network extension resources.
+      </t>
+      <t>
+In order to do this, requesting nodes only communicate via unicast Network
+Extension messages with routers to which they have configured one or more routes
+(either statically or dynamically, e.g. a default route or one or more RIOs).
+This increases the number of message exchanges to up to four (RS, RA, NES, NEA),
+but ensures that only routers permitted to send RAs (as ensured by, for example,
+RA Guard <xref target="RFC6105"/>) can cause requesting routers to configure
+network extension parameters. It also ensures that allocating routers can
+continue to multicast RAs suitable for all listening nodes.
+      </t>
+      <t>
+A requesting node MAY send a unicast Network Extension Solicitation (NES) to the
+link-local address of any router to which is has routes with non-zero preferred
+lifetimes.  Typically, this request can be sent after a node has received,
+processed, and accepted a suitable RA.
+      </t>
+      <t>
+The NES MUST contain either one or more PIOs indicating the desired prefix(es)
+or length requested, or a PVD container option containing the same.
+      </t>
+      <t>
+An allocating router MAY send a unicast Network Extension Allocation message to
+any node on-link. Typically this will be in response to an NES, though an
+allocation may be made to a node (and the node informed via NEA) unilaterally
+by the allocating router. As an example of the latter case, a router may respond
+to an RS with an RA (most likely unicast) followed immediately by a unicast NEA.
+      </t>
+    </section>
+
+    <section anchor="netext_msg" title="Network Extension Message">
       <figure anchor="format"
               title="IPv6 NDP Network Extension Message format">
           <preamble/>
@@ -145,9 +219,13 @@ among them the ability to work with the Provisioning Domain (PvD) architecture
 
         <t>
 IP Fields:
-          <list style="hanging">
-            <t hangText="Source Address">The link-local address of the sender.</t>
-            <t hangText="Destination Address"></t>
+          <list style="hanging" >
+            <t hangText="Source Address">The link-local address of the
+               sender.</t>
+            <t hangText="Destination Address">Either the link-local address
+               of the destination or the link-local multicast
+               All_Network_Extension_Requesting_Routers address (see
+               [citation]), depending upon the Code and mode of operation.</t>
             <t hangText="Hop Limit">255</t>
           </list>
         </t>
@@ -166,6 +244,17 @@ ICMP Fields:
         </t>
     </section>
 
+    <section anchor="solicitation" title="Network Extension Solicitation">
+      <t>
+Code: 0
+
+Rules for Requesting Nodes
+  - source address must be a link-local address of the interface
+  - destination address must be the link-local address from which an RA was
+    received (processed and accepted).
+      </t>
+    </section>
+
     <section anchor="iana" title="IANA Considerations">
       <t>
 Request IANA to allocate a link-local multicast address, ff02::XXX,
@@ -180,6 +269,10 @@ All_Network_Extension_Requesting_Routers.
       <?rfc include='reference.RFC.4443'?>
       <?rfc include='reference.RFC.4861'?>
       <?rfc include='reference.I-D.ietf-intarea-provisioning-domains'?>
+    </references>
+    <references title="Informative References">
+      <?rfc include='reference.RFC.6105'?>
+      <?rfc include='reference.RFC.7556'?>
     </references>
   </back>
 </rfc>

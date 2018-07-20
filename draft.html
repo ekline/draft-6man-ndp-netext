@@ -375,10 +375,15 @@
 
   <link href="#rfc.toc" rel="Contents"/>
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
-<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Requirements Notation"/>
-<link href="#rfc.section.2" rel="Chapter" title="2 Network Extension Message"/>
-<link href="#rfc.section.3" rel="Chapter" title="3 IANA Considerations"/>
-<link href="#rfc.references" rel="Chapter" title="4 Normative References"/>
+<link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology"/>
+<link href="#rfc.section.1.2" rel="Chapter" title="1.2 Requirements Notation"/>
+<link href="#rfc.section.2" rel="Chapter" title="2 Network Extension Overview"/>
+<link href="#rfc.section.3" rel="Chapter" title="3 Network Extension Message"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Network Extension Solicitation"/>
+<link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations"/>
+<link href="#rfc.references" rel="Chapter" title="6 References"/>
+<link href="#rfc.references.1" rel="Chapter" title="6.1 Normative References"/>
+<link href="#rfc.references.2" rel="Chapter" title="6.2 Informative References"/>
 <link href="#rfc.authors" rel="Chapter"/>
 
 
@@ -387,7 +392,7 @@
 
   <meta name="dct.creator" content="Kline, E." />
   <meta name="dct.identifier" content="urn:ietf:id:draft-sixxers-6man-ndp-netext-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-7-20" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-7-21" />
   <meta name="dct.abstract" content="This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol " />
   <meta name="description" content="This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol " />
 
@@ -408,10 +413,10 @@
 </tr>
 <tr>
   <td class="left">Intended status: Standards Track</td>
-  <td class="right">July 20, 2018</td>
+  <td class="right">July 21, 2018</td>
 </tr>
 <tr>
-  <td class="left">Expires: January 21, 2019</td>
+  <td class="left">Expires: January 22, 2019</td>
   <td class="right"></td>
 </tr>
 
@@ -425,14 +430,14 @@
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
-<p>This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks.  The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>.  </p>
+<p>This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks.  The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).  </p>
 <h1 id="rfc.status">
   <a href="#rfc.status">Status of This Memo</a>
 </h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 21, 2019.</p>
+<p>This Internet-Draft will expire on January 22, 2019.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -445,19 +450,35 @@
   <ul class="toc">
 
   	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
-<ul><li>1.1.   <a href="#rfc.section.1.1">Requirements Notation</a></li>
-</ul><li>2.   <a href="#rfc.section.2">Network Extension Message</a></li>
-<li>3.   <a href="#rfc.section.3">IANA Considerations</a></li>
-<li>4.   <a href="#rfc.references">Normative References</a></li>
-<li><a href="#rfc.authors">Author's Address</a></li>
+<ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a></li>
+<li>1.2.   <a href="#rfc.section.1.2">Requirements Notation</a></li>
+</ul><li>2.   <a href="#rfc.section.2">Network Extension Overview</a></li>
+<li>3.   <a href="#rfc.section.3">Network Extension Message</a></li>
+<li>4.   <a href="#rfc.section.4">Network Extension Solicitation</a></li>
+<li>5.   <a href="#rfc.section.5">IANA Considerations</a></li>
+<li>6.   <a href="#rfc.references">References</a></li>
+<ul><li>6.1.   <a href="#rfc.references.1">Normative References</a></li>
+<li>6.2.   <a href="#rfc.references.2">Informative References</a></li>
+</ul><li><a href="#rfc.authors">Author's Address</a></li>
 
 
   </ul>
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> Introduction</h1>
-<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> Requirements Notation</h1>
-<p id="rfc.section.1.1.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
-<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> Network Extension Message</h1>
+<p id="rfc.section.1.p.1">This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks.  The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).  </p>
+<p/>
+<h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> Terminology</h1>
+<p id="rfc.section.1.1.p.1">Requesting Node: a node (a router, a host, a node running within another node i.e. in  a VM) attempting to extend the IPv6 network. These nodes listen for, process, and can accept RAs (i.e. program routes as learned from the RA).  </p>
+<p id="rfc.section.1.1.p.2">Allocating Router: a node (a router, or a node running other nodes within itself i.e. in a VM) configured to allocate resources required for network extension to a requesting node and able to act as a router for some destinations not contained within any of the allocated prefixes. (Note that an allocating router that has temporarily exhausted resources for allocation, e.g. has already delegated all possible prefixes to requesters, is still considered an allocating router, albeit an exhausted one.) </p>
+<h1 id="rfc.section.1.2"><a href="#rfc.section.1.2">1.2.</a> Requirements Notation</h1>
+<p id="rfc.section.1.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
+<h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> Network Extension Overview</h1>
+<p id="rfc.section.2.p.1">The Network Extension protocol is designed to preserve the security model of RA Guard (<a href="#RFC6105">[RFC6105]</a>), while offering requesting nodes the means to request an extension of the network from multiple routers and/or from multiple Provisioning Domains (<a href="#RFC7556">[RFC7556]</a>). It also supports models where one or more on-link prefixes may be shared by multiple hosts while requesting nodes may be allocated network extension resources.  </p>
+<p id="rfc.section.2.p.2">In order to do this, requesting nodes only communicate via unicast Network Extension messages with routers to which they have configured one or more routes (either statically or dynamically, e.g. a default route or one or more RIOs).  This increases the number of message exchanges to up to four (RS, RA, NES, NEA), but ensures that only routers permitted to send RAs (as ensured by, for example, RA Guard <a href="#RFC6105">[RFC6105]</a>) can cause requesting routers to configure network extension parameters. It also ensures that allocating routers can continue to multicast RAs suitable for all listening nodes.  </p>
+<p id="rfc.section.2.p.3">A requesting node MAY send a unicast Network Extension Solicitation (NES) to the link-local address of any router to which is has routes with non-zero preferred lifetimes.  Typically, this request can be sent after a node has received, processed, and accepted a suitable RA.  </p>
+<p id="rfc.section.2.p.4">The NES MUST contain either one or more PIOs indicating the desired prefix(es) or length requested, or a PVD container option containing the same.  </p>
+<p id="rfc.section.2.p.5">An allocating router MAY send a unicast Network Extension Allocation message to any node on-link. Typically this will be in response to an NES, though an allocation may be made to a node (and the node informed via NEA) unilaterally by the allocating router. As an example of the latter case, a router may respond to an RS with an RA (most likely unicast) followed immediately by a unicast NEA.  </p>
+<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#netext_msg" id="netext_msg">Network Extension Message</a></h1>
 <div id="rfc.figure.1"/>
 <div id="format"/>
 <p/>
@@ -472,19 +493,19 @@
             </pre>
 <p/>
 <p class="figure">Figure 1: IPv6 NDP Network Extension Message format</p>
-<p id="rfc.section.2.p.1">IP Fields: </p>
+<p id="rfc.section.3.p.1">IP Fields: </p>
 
 <dl>
   <dt>Source Address</dt>
   <dd style="margin-left: 8">The link-local address of the sender.</dd>
   <dt>Destination Address</dt>
-  <dd style="margin-left: 8"/>
+  <dd style="margin-left: 8">Either the link-local address of the destination or the link-local multicast All_Network_Extension_Requesting_Routers address (see [citation]), depending upon the Code and mode of operation.</dd>
   <dt>Hop Limit</dt>
   <dd style="margin-left: 8">255</dd>
 </dl>
 
 <p> </p>
-<p id="rfc.section.2.p.2">ICMP Fields: </p>
+<p id="rfc.section.3.p.2">ICMP Fields: </p>
 
 <dl>
   <dt>Type      </dt>
@@ -498,9 +519,12 @@
 </dl>
 
 <p> </p>
-<h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#iana" id="iana">IANA Considerations</a></h1>
-<p id="rfc.section.3.p.1">Request IANA to allocate a link-local multicast address, ff02::XXX, All_Network_Extension_Requesting_Routers.  </p>
-<h1 id="rfc.references"><a href="#rfc.references">4.</a> Normative References</h1>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#solicitation" id="solicitation">Network Extension Solicitation</a></h1>
+<p id="rfc.section.4.p.1">Code: 0 Rules for Requesting Nodes - source address must be a link-local address of the interface - destination address must be the link-local address from which an RA was received (processed and accepted).  </p>
+<h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#iana" id="iana">IANA Considerations</a></h1>
+<p id="rfc.section.5.p.1">Request IANA to allocate a link-local multicast address, ff02::XXX, All_Network_Extension_Requesting_Routers.  </p>
+<h1 id="rfc.references"><a href="#rfc.references">6.</a> References</h1>
+<h1 id="rfc.references.1"><a href="#rfc.references.1">6.1.</a> Normative References</h1>
 <table>
   <tbody>
     <tr>
@@ -526,6 +550,23 @@
         <b id="RFC4861">[RFC4861]</b>
       </td>
       <td class="top"><a>Narten, T.</a>, <a>Nordmark, E.</a>, <a>Simpson, W.</a> and <a>H. Soliman</a>, "<a href="http://tools.ietf.org/html/rfc4861">Neighbor Discovery for IP version 6 (IPv6)</a>", RFC 4861, DOI 10.17487/RFC4861, September 2007.</td>
+    </tr>
+  </tbody>
+</table>
+<h1 id="rfc.references.2"><a href="#rfc.references.2">6.2.</a> Informative References</h1>
+<table>
+  <tbody>
+    <tr>
+      <td class="reference">
+        <b id="RFC6105">[RFC6105]</b>
+      </td>
+      <td class="top"><a>Levy-Abegnoli, E.</a>, <a>Van de Velde, G.</a>, <a>Popoviciu, C.</a> and <a>J. Mohacsi</a>, "<a href="http://tools.ietf.org/html/rfc6105">IPv6 Router Advertisement Guard</a>", RFC 6105, DOI 10.17487/RFC6105, February 2011.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC7556">[RFC7556]</b>
+      </td>
+      <td class="top"><a>Anipko, D.</a>, "<a href="http://tools.ietf.org/html/rfc7556">Multiple Provisioning Domain Architecture</a>", RFC 7556, DOI 10.17487/RFC7556, June 2015.</td>
     </tr>
   </tbody>
 </table>
