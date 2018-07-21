@@ -7,6 +7,11 @@ DRAFT := draft
 
 all: README.md draft.html
 
+update:
+	git remote update && \
+	git checkout master && \
+	git rebase
+
 %.txt: %.xml
 	$(XML2RFC) $< -o $@ --text
 
