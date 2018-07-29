@@ -82,11 +82,15 @@ NER:
     - reponse is to to start NES for that router
 
 
-Questions:
+Questions/considerations:
 
   - How about other configuration options e.g. dns list along with RIO in NEA?
   - RA guard for protecting against rogue allocating routers, how about protection against rogue requesting nodes - SEND?
   - Need for unsolicited NEA? Given there is NER to trigger NES, why send unsolicited NEA?
+  - Updates 4861 "The Prefix Information option
+                     appears in Router Advertisement packets and MUST be
+                     silently ignored for other messages."
+  - 
 
 
 -->
@@ -112,6 +116,14 @@ Questions:
         <phone></phone>
 
         <email></email>
+      </address>
+    </author>
+
+    <author fullname="Shwetha Bhandari" initials="S." surname="Bhandari">
+      <organization>Cisco</organization>
+
+      <address>
+        <email>shwethab@cisco.com</email>
       </address>
     </author>
 
@@ -274,7 +286,7 @@ Questions:
               <t hangText="Network Extension Allocation (1)">The Network
               Extension Allocation (NEA) is sent in response to NES by an
               Allocating Router to Requesting Node or by an Allocating Router
-              to any node on the link. </t>
+              to any node on the link.</t>
 
               <t hangText="Network Extension Report (2)">The Network Extension
               Report (NER) is sent by Allocating Router to Request Node or to
@@ -296,7 +308,7 @@ Questions:
               DNS Server list..? in the NEA message.</t>
 
               <t hangText="PvD ID Option:">May be included in NES, NEA (and
-              NER?). </t>
+              NER?).</t>
 
               <t hangText="Route Information Option(RIO):">May be included in
               NEA.</t>
@@ -351,7 +363,49 @@ Questions:
           </list></t>
 
         <section title="Requesting Node behavior">
-          <t></t>
+          <t>The Requesting Node creates and transmits NES message to a router
+          after it has received, processed, and accepted a suitable RA. The
+          Requesting Node selects the routers for transmitting NES based on
+          the contents of PIOs and/or PVD ID options in the RA message. The
+          Requesting Node creates and transmits NES towards selected router(s)
+          in the following scenarios:<list style="numbers">
+              <t>Initial request: When it requires a dedicated prefix to be
+              assigned.</t>
+
+              <t>To verify validity of an already allocated dedicated
+              prefix:<list>
+                  <t>when the prefix's invalidation timer is about to
+                  expire.</t>
+
+                  <t>after the Requesting Node reboots,</t>
+
+                  <t>link towards the Allocating Router flaps.</t>
+                </list></t>
+
+              <t>In response to NER message received from the Allocating
+              Router.</t>
+            </list></t>
+
+          <t>The NES message created MUST contain PIO options and/or PVD ID
+          options containing PIO options:<list style="numbers">
+              <t>As received in the RA to request the prefix to be dedicated
+              OR</t>
+
+              <t>PIO option with the length of the desired dedicated prefix
+              OR</t>
+
+              <t>PIO options allocated to the Requesting Node with Valid
+              Lifetime set to remaining lifetime since the prefix was
+              allocated.</t>
+            </list>The NES message MAY include a Nonce Option: <list
+              style="numbers">
+              <t>With the nonce value containing a random number that it
+              expects to be repeated in the corresponding NEA message. </t>
+
+              <t>If the NES message is in response to an NER from the router
+              and that NER contained a Nonce Option. In this case the Nonce
+              Option value MUST be same as received in the NER.</t>
+            </list></t>
         </section>
 
         <section title="Allocating Router behavior">
