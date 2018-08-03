@@ -5,8 +5,8 @@
 Network Working Group                                           E. Kline
 Internet-Draft                                              Google Japan
 Intended status: Standards Track                             S. Bhandari
-Expires: January 30, 2019                                          Cisco
-                                                           July 29, 2018
+Expires: February 4, 2019                                          Cisco
+                                                          August 3, 2018
 
 
          IPv6 Neighbor Discovery Protocol for Network Extension
@@ -29,14 +29,14 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at https://datatracker.ietf.org/drafts/current/.
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 30, 2019.
+   This Internet-Draft will expire on February 4, 2019.
 
 Copyright Notice
 
@@ -45,7 +45,7 @@ Copyright Notice
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
+   (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
    to this document.  Code Components extracted from this document must
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 1]
+Kline & Bhandari        Expires February 4, 2019                [Page 1]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
    the Trust Legal Provisions and are provided without warranty as
@@ -74,16 +74,16 @@ Table of Contents
        3.1.2.  Allocating Router behavior  . . . . . . . . . . . . .   7
      3.2.  Network Extension Allocation  . . . . . . . . . . . . . .   7
        3.2.1.  Allocating Router behavior  . . . . . . . . . . . . .   8
-       3.2.2.  Requesting Node behavior  . . . . . . . . . . . . . .   8
-     3.3.  Network Extension Report  . . . . . . . . . . . . . . . .   8
-       3.3.1.  Allocating Router behavior  . . . . . . . . . . . . .   9
-       3.3.2.  Requesting Node behavior  . . . . . . . . . . . . . .   9
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
-   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
-     6.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
-     6.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  10
+       3.2.2.  Requesting Node behavior  . . . . . . . . . . . . . .   9
+     3.3.  Network Extension Report  . . . . . . . . . . . . . . . .  10
+       3.3.1.  Allocating Router behavior  . . . . . . . . . . . . .  10
+       3.3.2.  Requesting Node behavior  . . . . . . . . . . . . . .  10
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
+   6.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     6.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
+     6.2.  Informative References  . . . . . . . . . . . . . . . . .  12
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 2]
+Kline & Bhandari        Expires February 4, 2019                [Page 2]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
    temporarily exhausted resources for allocation, e.g. has already
@@ -165,9 +165,9 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 3]
+Kline & Bhandari        Expires February 4, 2019                [Page 3]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
    route or one or more RIOs).  This increases the number of message
@@ -221,9 +221,9 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 4]
+Kline & Bhandari        Expires February 4, 2019                [Page 4]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
    Hop Limit  255
@@ -277,9 +277,9 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 5]
+Kline & Bhandari        Expires February 4, 2019                [Page 5]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
    of the prefixes allocated to it.  NES may be triggered in response to
@@ -333,9 +333,9 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 
 
-Kline & Bhandari        Expires January 30, 2019                [Page 6]
+Kline & Bhandari        Expires February 4, 2019                [Page 6]
 
-Internet-Draft         IPv6 NDP Network Extension              July 2018
+Internet-Draft         IPv6 NDP Network Extension            August 2018
 
 
        1.  when the prefix's invalidation timer is about to expire.
@@ -363,9 +363,21 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
    2.  If the NES message is in response to an NER from the router and
        that NER contained a Nonce Option.  In this case the Nonce Option
-       value MUST be same as received in the NER.
+       value MUST be same as that received in the NER.
 
 3.1.2.  Allocating Router behavior
+
+   When an Allocating Router receives NES message containing PIO option
+   or PVD ID option containing PIO option from a Requesting Node to
+   which it is authorized to allocate prefixes, it processes the message
+   to create and send NEA message.  Else it should silently discard the
+   received NES message.
+
+   Allocating router MUST start and complete Neighbor Unreachability
+   Detection (NUD) for the Requesting Node before selecting and
+   allocating requested prefixes.  If Allocating Router after performing
+   NUD detects that the Requesting Node is unreachable it silently
+   discards the NES message.
 
 3.2.  Network Extension Allocation
 
@@ -374,6 +386,13 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
    by an Allocating Router to any node on the link.  The NEA message
    contains options to provide prefix data or hint about the
    unavailability of the requested prefix.
+
+
+
+Kline & Bhandari        Expires February 4, 2019                [Page 7]
+
+Internet-Draft         IPv6 NDP Network Extension            August 2018
+
 
    IP fields
 
@@ -385,14 +404,6 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
    ICMP Fields
 
       Type   ICMPV6_TYPE_NE_TBD (IANA)
-
-
-
-
-Kline & Bhandari        Expires January 30, 2019                [Page 7]
-
-Internet-Draft         IPv6 NDP Network Extension              July 2018
-
 
       Code    Network Extension Allocation (1)
 
@@ -427,7 +438,73 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 3.2.1.  Allocating Router behavior
 
+   When an Allocating Router receives NES message containing PIO option
+   or PVD ID option containing PIO option from a Requesting Node to
+   which it is authorized to allocate prefixes, it performs NUD for the
+   Requesting Node.  After NUD completes it may select and assign
+
+
+
+Kline & Bhandari        Expires February 4, 2019                [Page 8]
+
+Internet-Draft         IPv6 NDP Network Extension            August 2018
+
+
+   requested prefixes by creating and sending NEA message to the
+   Requesting Node.  The Allocating Router MAY include additional
+   configuration options such as RIO option along with the allocated
+   prefixes in the NEA message.
+
+   If the Allocating Router is unable to assign requested prefixes it
+   returns a NEA message containing unavailable prefixes with zero
+   lifetime.  If the Allocating Router is not authorized to return any
+   prefix to the Requesting node it returns NEA with PIO option
+   containing ::/0 prefix with zero lifetime.  On transient failure to
+   return prefixes perhaps due to resource exhaustion on Allocating
+   Router it should return NEA with PIO option containing ::/0 with a
+   non-zero lifetime as a hint to the Requesting Node to retry
+   allocation by sending NES after a period specified by the lifetime.
+
+   If the Nonce option is received in the corresponding NES message it
+   MUST be copied in the NEA message sent to the Requesting Node.
+
 3.2.2.  Requesting Node behavior
+
+   The Requesting Node must silently discard NEA received from a router
+   whose RA has not been processed and accepted.  If the Requesting Node
+   included Nonce option in the NES message requesting the prefix
+   assignment, it MAY validate the Nonce option received in NEA against
+   the latest outstanding NES and discard the NEA on mismatch.
+
+   When a node receives NEA from a router whose RA has been processed
+   and accepted, it processes the received prefix(es).  It maintains the
+   allocated dedicated prefixes and invalidation timer for the prefixes
+   based on the lifetime received in the PIO option.  It maintains and
+   applies other configuration options corresponding to each of the
+   prefixes received.
+
+   If the NEA contains PIO with the requested prefix and zero lifetime
+   then the Requesting Node should treat the prefix as not a dedicated
+   prefix.  It the prefix was allocated in an earlier NEA message the
+   Requesting Node MUST invalidate the prefix and corresponding
+   configuration options.
+
+   If the NEA contains PIO with ::/0 prefix and zero lifetime then it
+   SHOULD stop sending NES message to retry prefix allocation till a NER
+   message is received from the Allocating Router.
+
+   If the NEA contains PIO with ::/0 prefix and non-zero lifetime then
+   it MAY retry requesting for the prefix by sending NES message after a
+   period specified by the lifetime.
+
+
+
+
+
+Kline & Bhandari        Expires February 4, 2019                [Page 9]
+
+Internet-Draft         IPv6 NDP Network Extension            August 2018
+
 
 3.3.  Network Extension Report
 
@@ -442,14 +519,6 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
       Source Address  The link-local address of the Allocating Router.
 
-
-
-
-Kline & Bhandari        Expires January 30, 2019                [Page 8]
-
-Internet-Draft         IPv6 NDP Network Extension              July 2018
-
-
       Destination Address  The link-local address of the Requesting Node
          received in the source of a NES message or
          All_Network_Extension_Requesting_Routers address.
@@ -462,7 +531,16 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 3.3.1.  Allocating Router behavior
 
+   sends NER to trigger NES, to gather prefixes in use and remaining
+   lifetime, may contain Nonce
+
 3.3.2.  Requesting Node behavior
+
+   no RA silently discard
+
+   send NES
+
+   Include nonce
 
 4.  Security Considerations
 
@@ -471,9 +549,18 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
    model offered by RA guard should mitigate this.
 
    - Rogue Requesting Nodes may consume resources from legitimate
-   Allocating Routers, thus denying others the use of the prefixes.  The
+   Allocating Routers, thus denying others the use of the prefixes.The
    use of SEND ([RFC3971]) is recommended to protect the integrity of
    the messages and authenticate the identity of the Requesting Nodes.
+
+
+
+
+
+Kline & Bhandari        Expires February 4, 2019               [Page 10]
+
+Internet-Draft         IPv6 NDP Network Extension            August 2018
+
 
    It is recommended to configure control plane policing on Allocating
    Routers to rate limit processing of NES messages.
@@ -496,16 +583,6 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
    2  Network Extension Report
 
-
-
-
-
-
-Kline & Bhandari        Expires January 30, 2019                [Page 9]
-
-Internet-Draft         IPv6 NDP Network Extension              July 2018
-
-
 6.  References
 
 6.1.  Normative References
@@ -518,13 +595,13 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
 
    [RFC3971]  Arkko, J., Ed., Kempf, J., Zill, B., and P. Nikander,
               "SEcure Neighbor Discovery (SEND)", RFC 3971,
-              DOI 10.17487/RFC3971, March 2005,
-              <https://www.rfc-editor.org/info/rfc3971>.
+              DOI 10.17487/RFC3971, March 2005, <https://www.rfc-
+              editor.org/info/rfc3971>.
 
    [RFC4443]  Conta, A., Deering, S., and M. Gupta, Ed., "Internet
               Control Message Protocol (ICMPv6) for the Internet
@@ -532,35 +609,32 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
               RFC 4443, DOI 10.17487/RFC4443, March 2006,
               <https://www.rfc-editor.org/info/rfc4443>.
 
+
+
+
+
+Kline & Bhandari        Expires February 4, 2019               [Page 11]
+
+Internet-Draft         IPv6 NDP Network Extension            August 2018
+
+
    [RFC4861]  Narten, T., Nordmark, E., Simpson, W., and H. Soliman,
               "Neighbor Discovery for IP version 6 (IPv6)", RFC 4861,
-              DOI 10.17487/RFC4861, September 2007,
-              <https://www.rfc-editor.org/info/rfc4861>.
+              DOI 10.17487/RFC4861, September 2007, <https://www.rfc-
+              editor.org/info/rfc4861>.
 
 6.2.  Informative References
 
    [RFC6105]  Levy-Abegnoli, E., Van de Velde, G., Popoviciu, C., and J.
               Mohacsi, "IPv6 Router Advertisement Guard", RFC 6105,
-              DOI 10.17487/RFC6105, February 2011,
-              <https://www.rfc-editor.org/info/rfc6105>.
+              DOI 10.17487/RFC6105, February 2011, <https://www.rfc-
+              editor.org/info/rfc6105>.
 
    [RFC7556]  Anipko, D., Ed., "Multiple Provisioning Domain
               Architecture", RFC 7556, DOI 10.17487/RFC7556, June 2015,
               <https://www.rfc-editor.org/info/rfc7556>.
 
 Authors' Addresses
-
-
-
-
-
-
-
-
-Kline & Bhandari        Expires January 30, 2019               [Page 10]
-
-Internet-Draft         IPv6 NDP Network Extension              July 2018
-
 
    Erik Kline
    Google Japan
@@ -595,22 +669,4 @@ Internet-Draft         IPv6 NDP Network Extension              July 2018
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Kline & Bhandari        Expires January 30, 2019               [Page 11]
+Kline & Bhandari        Expires February 4, 2019               [Page 12]

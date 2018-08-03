@@ -85,12 +85,12 @@ NER:
 Questions/considerations:
 
   - How about other configuration options e.g. dns list along with RIO in NEA?
-  - RA guard for protecting against rogue allocating routers, how about protection against rogue requesting nodes - SEND?
-  - Need for unsolicited NEA? Given there is NER to trigger NES, why send unsolicited NEA?
+  - RA guard for protecting against rogue allocating routers, how about protection against rogue requesting nodes - SEND? then CGA address in the source of NES?
+  - Need for unsolicited NEA? Given there is NER to trigger NES, why send unsolicited NEA at all?
   - Updates 4861 "The Prefix Information option
                      appears in Router Advertisement packets and MUST be
                      silently ignored for other messages."
-  - 
+  - Why Nonce? request-response association? To evaluate freshness of response? Also definition of Nonce option is very specific to SeND, needs tweaking.  
 
 
 -->
@@ -404,12 +404,22 @@ Questions/considerations:
 
               <t>If the NES message is in response to an NER from the router
               and that NER contained a Nonce Option. In this case the Nonce
-              Option value MUST be same as received in the NER.</t>
+              Option value MUST be same as that received in the NER.</t>
             </list></t>
         </section>
 
         <section title="Allocating Router behavior">
-          <t></t>
+          <t>When an Allocating Router receives NES message containing PIO
+          option or PVD ID option containing PIO option from a Requesting Node
+          to which it is authorized to allocate prefixes, it processes the
+          message to create and send NEA message. Else it should silently
+          discard the received NES message. </t>
+
+          <t>Allocating router MUST start and complete Neighbor Unreachability
+          Detection (NUD) for the Requesting Node before selecting and
+          allocating requested prefixes. If Allocating Router after performing
+          NUD detects that the Requesting Node is unreachable it silently
+          discards the NES message.</t>
         </section>
       </section>
 
@@ -466,11 +476,59 @@ Questions/considerations:
           </list></t>
 
         <section title="Allocating Router behavior">
-          <t></t>
+          <t>When an Allocating Router receives NES message containing PIO
+          option or PVD ID option containing PIO option from a Requesting Node
+          to which it is authorized to allocate prefixes, it performs NUD for
+          the Requesting Node. After NUD completes it may select and assign
+          requested prefixes by creating and sending NEA message to the
+          Requesting Node. The Allocating Router MAY include additional
+          configuration options such as RIO option along with the allocated
+          prefixes in the NEA message. </t>
+
+          <t>If the Allocating Router is unable to assign requested prefixes
+          it returns a NEA message containing unavailable prefixes with zero
+          lifetime. If the Allocating Router is not authorized to return any
+          prefix to the Requesting node it returns NEA with PIO option
+          containing ::/0 prefix with zero lifetime. On transient failure to
+          return prefixes perhaps due to resource exhaustion on Allocating
+          Router it should return NEA with PIO option containing ::/0 with a
+          non-zero lifetime as a hint to the Requesting Node to retry
+          allocation by sending NES after a period specified by the
+          lifetime.</t>
+
+          <t>If the Nonce option is received in the corresponding NES message
+          it MUST be copied in the NEA message sent to the Requesting
+          Node.</t>
         </section>
 
         <section title="Requesting Node behavior">
-          <t></t>
+          <t>The Requesting Node must silently discard NEA received from a
+          router whose RA has not been processed and accepted. If the
+          Requesting Node included Nonce option in the NES message requesting
+          the prefix assignment, it MAY validate the Nonce option received in
+          NEA against the latest outstanding NES and discard the NEA on
+          mismatch.</t>
+
+          <t>When a node receives NEA from a router whose RA has been
+          processed and accepted, it processes the received prefix(es). It
+          maintains the allocated dedicated prefixes and invalidation timer
+          for the prefixes based on the lifetime received in the PIO option.
+          It maintains and applies other configuration options corresponding
+          to each of the prefixes received.</t>
+
+          <t>If the NEA contains PIO with the requested prefix and zero
+          lifetime then the Requesting Node should treat the prefix as not a
+          dedicated prefix. It the prefix was allocated in an earlier NEA
+          message the Requesting Node MUST invalidate the prefix and
+          corresponding configuration options.</t>
+
+          <t>If the NEA contains PIO with ::/0 prefix and zero lifetime then
+          it SHOULD stop sending NES message to retry prefix allocation till a
+          NER message is received from the Allocating Router.</t>
+
+          <t>If the NEA contains PIO with ::/0 prefix and non-zero lifetime
+          then it MAY retry requesting for the prefix by sending NES message
+          after a period specified by the lifetime.</t>
         </section>
       </section>
 
@@ -499,11 +557,16 @@ Questions/considerations:
           </list></t>
 
         <section title="Allocating Router behavior">
-          <t></t>
+          <t>sends NER to trigger NES, to gather prefixes in use and remaining
+          lifetime, may contain Nonce </t>
         </section>
 
         <section title="Requesting Node behavior">
-          <t></t>
+          <t>no RA silently discard</t>
+
+          <t>send NES</t>
+
+          <t>Include nonce</t>
         </section>
       </section>
     </section>
@@ -514,7 +577,7 @@ Questions/considerations:
       offered by RA guard should mitigate this.</t>
 
       <t>- Rogue Requesting Nodes may consume resources from legitimate
-      Allocating Routers, thus denying others the use of the prefixes. The use
+      Allocating Routers, thus denying others the use of the prefixes.The use
       of SEND (<xref target="RFC3971"></xref>) is recommended to protect the
       integrity of the messages and authenticate the identity of the
       Requesting Nodes.</t>
