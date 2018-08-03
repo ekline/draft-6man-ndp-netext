@@ -5,7 +5,7 @@
 <head profile="http://www.w3.org/2006/03/hcard http://dublincore.org/documents/2008/08/04/dc-html/">
   <meta http-equiv="Content-Type" content="text/html; charset=us-ascii" />
 
-  <title>IPv6 Neighbor Discovery Protocol for Network Extension </title>
+  <title>IPv6 Neighbor Discovery Protocol for Network Extension</title>
 
   <style type="text/css" title="Xml2Rfc (sans serif)">
   /*<![CDATA[*/
@@ -377,9 +377,19 @@
 <link href="#rfc.section.1" rel="Chapter" title="1 Introduction"/>
 <link href="#rfc.section.1.1" rel="Chapter" title="1.1 Terminology"/>
 <link href="#rfc.section.1.2" rel="Chapter" title="1.2 Requirements Notation"/>
+<link href="#rfc.section.1.3" rel="Chapter" title="1.3 Why Network Extension protocol"/>
 <link href="#rfc.section.2" rel="Chapter" title="2 Network Extension Overview"/>
 <link href="#rfc.section.3" rel="Chapter" title="3 Network Extension Message"/>
-<link href="#rfc.section.4" rel="Chapter" title="4 Network Extension Solicitation"/>
+<link href="#rfc.section.3.1" rel="Chapter" title="3.1 Network Extension Solicitation"/>
+<link href="#rfc.section.3.1.1" rel="Chapter" title="3.1.1 Requesting Node behavior"/>
+<link href="#rfc.section.3.1.2" rel="Chapter" title="3.1.2 Allocating Router behavior"/>
+<link href="#rfc.section.3.2" rel="Chapter" title="3.2 Network Extension Allocation"/>
+<link href="#rfc.section.3.2.1" rel="Chapter" title="3.2.1 Allocating Router behavior"/>
+<link href="#rfc.section.3.2.2" rel="Chapter" title="3.2.2 Requesting Node behavior"/>
+<link href="#rfc.section.3.3" rel="Chapter" title="3.3 Network Extension Report"/>
+<link href="#rfc.section.3.3.1" rel="Chapter" title="3.3.1 Allocating Router behavior"/>
+<link href="#rfc.section.3.3.2" rel="Chapter" title="3.3.2 Requesting Node behavior"/>
+<link href="#rfc.section.4" rel="Chapter" title="4 Security Considerations"/>
 <link href="#rfc.section.5" rel="Chapter" title="5 IANA Considerations"/>
 <link href="#rfc.references" rel="Chapter" title="6 References"/>
 <link href="#rfc.references.1" rel="Chapter" title="6.1 Normative References"/>
@@ -387,12 +397,12 @@
 <link href="#rfc.authors" rel="Chapter"/>
 
 
-  <meta name="generator" content="xml2rfc version 2.5.2 - http://tools.ietf.org/tools/xml2rfc" />
+  <meta name="generator" content="xml2rfc version 2.5.1 - http://tools.ietf.org/tools/xml2rfc" />
   <link rel="schema.dct" href="http://purl.org/dc/terms/" />
 
-  <meta name="dct.creator" content="Kline, E." />
+  <meta name="dct.creator" content="Kline, E. and S. Bhandari" />
   <meta name="dct.identifier" content="urn:ietf:id:draft-sixxers-6man-ndp-netext-00" />
-  <meta name="dct.issued" scheme="ISO8601" content="2018-7-21" />
+  <meta name="dct.issued" scheme="ISO8601" content="2018-8-3" />
   <meta name="dct.abstract" content="This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol " />
   <meta name="description" content="This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol " />
 
@@ -413,31 +423,35 @@
 </tr>
 <tr>
   <td class="left">Intended status: Standards Track</td>
-  <td class="right">July 21, 2018</td>
+  <td class="right">S. Bhandari</td>
 </tr>
 <tr>
-  <td class="left">Expires: January 22, 2019</td>
-  <td class="right"></td>
+  <td class="left">Expires: February 4, 2019</td>
+  <td class="right">Cisco</td>
+</tr>
+<tr>
+  <td class="left"></td>
+  <td class="right">August 3, 2018</td>
 </tr>
 
     	
     </tbody>
   </table>
 
-  <p class="title">IPv6 Neighbor Discovery Protocol for Network Extension <br />
+  <p class="title">IPv6 Neighbor Discovery Protocol for Network Extension<br />
   <span class="filename">draft-sixxers-6man-ndp-netext-00</span></p>
   
   <h1 id="rfc.abstract">
   <a href="#rfc.abstract">Abstract</a>
 </h1>
-<p>This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks.  The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).  </p>
+<p>This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks. The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).</p>
 <h1 id="rfc.status">
   <a href="#rfc.status">Status of This Memo</a>
 </h1>
 <p>This Internet-Draft is submitted in full conformance with the provisions of BCP 78 and BCP 79.</p>
 <p>Internet-Drafts are working documents of the Internet Engineering Task Force (IETF).  Note that other groups may also distribute working documents as Internet-Drafts.  The list of current Internet-Drafts is at http://datatracker.ietf.org/drafts/current/.</p>
 <p>Internet-Drafts are draft documents valid for a maximum of six months and may be updated, replaced, or obsoleted by other documents at any time.  It is inappropriate to use Internet-Drafts as reference material or to cite them other than as "work in progress."</p>
-<p>This Internet-Draft will expire on January 22, 2019.</p>
+<p>This Internet-Draft will expire on February 4, 2019.</p>
 <h1 id="rfc.copyrightnotice">
   <a href="#rfc.copyrightnotice">Copyright Notice</a>
 </h1>
@@ -452,32 +466,57 @@
   	<li>1.   <a href="#rfc.section.1">Introduction</a></li>
 <ul><li>1.1.   <a href="#rfc.section.1.1">Terminology</a></li>
 <li>1.2.   <a href="#rfc.section.1.2">Requirements Notation</a></li>
+<li>1.3.   <a href="#rfc.section.1.3">Why Network Extension protocol</a></li>
 </ul><li>2.   <a href="#rfc.section.2">Network Extension Overview</a></li>
 <li>3.   <a href="#rfc.section.3">Network Extension Message</a></li>
-<li>4.   <a href="#rfc.section.4">Network Extension Solicitation</a></li>
+<ul><li>3.1.   <a href="#rfc.section.3.1">Network Extension Solicitation</a></li>
+<ul><li>3.1.1.   <a href="#rfc.section.3.1.1">Requesting Node behavior</a></li>
+<li>3.1.2.   <a href="#rfc.section.3.1.2">Allocating Router behavior</a></li>
+</ul><li>3.2.   <a href="#rfc.section.3.2">Network Extension Allocation</a></li>
+<ul><li>3.2.1.   <a href="#rfc.section.3.2.1">Allocating Router behavior</a></li>
+<li>3.2.2.   <a href="#rfc.section.3.2.2">Requesting Node behavior</a></li>
+</ul><li>3.3.   <a href="#rfc.section.3.3">Network Extension Report</a></li>
+<ul><li>3.3.1.   <a href="#rfc.section.3.3.1">Allocating Router behavior</a></li>
+<li>3.3.2.   <a href="#rfc.section.3.3.2">Requesting Node behavior</a></li>
+</ul></ul><li>4.   <a href="#rfc.section.4">Security Considerations</a></li>
 <li>5.   <a href="#rfc.section.5">IANA Considerations</a></li>
 <li>6.   <a href="#rfc.references">References</a></li>
 <ul><li>6.1.   <a href="#rfc.references.1">Normative References</a></li>
 <li>6.2.   <a href="#rfc.references.2">Informative References</a></li>
-</ul><li><a href="#rfc.authors">Author's Address</a></li>
+</ul><li><a href="#rfc.authors">Authors' Addresses</a></li>
 
 
   </ul>
 
   <h1 id="rfc.section.1"><a href="#rfc.section.1">1.</a> Introduction</h1>
-<p id="rfc.section.1.p.1">This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks.  The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).  </p>
-<p/>
+<p id="rfc.section.1.p.1">This document describes a protocol that uses new options in the IPv6 Neighbor Discovery Protocol <a href="#RFC4861">[RFC4861]</a> to extend IPv6 networks. The approach described has several advantages over existing techniques, chief among them the ability to work with the Provisioning Domain (PvD) architecture (<a href="#RFC7556">[RFC7556]</a>, <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a>).</p>
 <h1 id="rfc.section.1.1"><a href="#rfc.section.1.1">1.1.</a> Terminology</h1>
-<p id="rfc.section.1.1.p.1">Requesting Node: a node (a router, a host, a node running within another node i.e. in  a VM) attempting to extend the IPv6 network. These nodes listen for, process, and can accept RAs (i.e. program routes as learned from the RA).  </p>
-<p id="rfc.section.1.1.p.2">Allocating Router: a node (a router, or a node running other nodes within itself i.e. in a VM) configured to allocate resources required for network extension to a requesting node and able to act as a router for some destinations not contained within any of the allocated prefixes. (Note that an allocating router that has temporarily exhausted resources for allocation, e.g. has already delegated all possible prefixes to requesters, is still considered an allocating router, albeit an exhausted one.) </p>
+<p id="rfc.section.1.1.p.1">Requesting Node: a node (a router, a host, a node running within another node i.e. in a VM) attempting to extend the IPv6 network.  These nodes listen for, process, and can accept RAs (i.e. program routes as learned from the RA).</p>
+<p id="rfc.section.1.1.p.2">Allocating Router: a node (a router, or a node running other nodes within itself i.e. in a VM) configured to allocate resources required for network extension to a requesting node and able to act as a router for some destinations not contained within any of the allocated prefixes. (Note that an allocating router that has temporarily exhausted resources for allocation, e.g. has already delegated all possible prefixes to requesters, is still considered an allocating router, albeit an exhausted one.)</p>
 <h1 id="rfc.section.1.2"><a href="#rfc.section.1.2">1.2.</a> Requirements Notation</h1>
 <p id="rfc.section.1.2.p.1">The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in <a href="#RFC2119">[RFC2119]</a>.</p>
+<h1 id="rfc.section.1.3"><a href="#rfc.section.1.3">1.3.</a> Why Network Extension protocol</h1>
+<p id="rfc.section.1.3.p.1">Limitations of current approaches:</p>
+
+<ul>
+  <li>No provision for routers to learn previously delegated prefixes.</li>
+  <li>No provision for multiple prefixes delegated from multiple routers.</li>
+  <li>No support for provisioning domains <a href="#RFC7556">[RFC7556]</a>.</li>
+</ul>
+<p id="rfc.section.1.3.p.2">The Network Extension protocol is designed to:</p>
+
+<ul>
+  <li>Offer Requesting Nodes a means to request an extension of the network from multiple routers and/or from multiple Provisioning Domains (<a href="#RFC7556">[RFC7556]</a>).</li>
+  <li>Compatibility with existing deployments/implementations: Support models where one or more on-link prefixes may be shared by multiple hosts while Requesting Nodes may be allocated network extension resources. Nodes that do not implement the network extension are unaffected in a mixed deployment.</li>
+  <li>Preserve the security model of RA Guard (<a href="#RFC6105">[RFC6105]</a>).</li>
+</ul>
 <h1 id="rfc.section.2"><a href="#rfc.section.2">2.</a> Network Extension Overview</h1>
-<p id="rfc.section.2.p.1">The Network Extension protocol is designed to preserve the security model of RA Guard (<a href="#RFC6105">[RFC6105]</a>), while offering requesting nodes the means to request an extension of the network from multiple routers and/or from multiple Provisioning Domains (<a href="#RFC7556">[RFC7556]</a>). It also supports models where one or more on-link prefixes may be shared by multiple hosts while requesting nodes may be allocated network extension resources.  </p>
-<p id="rfc.section.2.p.2">In order to do this, requesting nodes only communicate via unicast Network Extension messages with routers to which they have configured one or more routes (either statically or dynamically, e.g. a default route or one or more RIOs).  This increases the number of message exchanges to up to four (RS, RA, NES, NEA), but ensures that only routers permitted to send RAs (as ensured by, for example, RA Guard <a href="#RFC6105">[RFC6105]</a>) can cause requesting routers to configure network extension parameters. It also ensures that allocating routers can continue to multicast RAs suitable for all listening nodes.  </p>
-<p id="rfc.section.2.p.3">A requesting node MAY send a unicast Network Extension Solicitation (NES) to the link-local address of any router to which is has routes with non-zero preferred lifetimes.  Typically, this request can be sent after a node has received, processed, and accepted a suitable RA.  </p>
-<p id="rfc.section.2.p.4">The NES MUST contain either one or more PIOs indicating the desired prefix(es) or length requested, or a PVD container option containing the same.  </p>
-<p id="rfc.section.2.p.5">An allocating router MAY send a unicast Network Extension Allocation message to any node on-link. Typically this will be in response to an NES, though an allocation may be made to a node (and the node informed via NEA) unilaterally by the allocating router. As an example of the latter case, a router may respond to an RS with an RA (most likely unicast) followed immediately by a unicast NEA.  </p>
+<p id="rfc.section.2.p.1">The Network Extension protocol is designed to preserve the security model of RA Guard (<a href="#RFC6105">[RFC6105]</a>), while offering Requesting Nodes the means to request an extension of the network from multiple routers and/or from multiple Provisioning Domains (<a href="#RFC7556">[RFC7556]</a>). It also supports models where one or more on-link prefixes may be shared by multiple hosts while Requesting Nodes may be allocated network extension resources.</p>
+<p id="rfc.section.2.p.2">In order to do this, Requesting Nodes only communicate via unicast Network Extension messages with routers to which they have configured one or more routes (either statically or dynamically, e.g. a default route or one or more RIOs). This increases the number of message exchanges to up to four (RS, RA, NES, NEA), but ensures that only routers permitted to send RAs (as ensured by, for example, RA Guard <a href="#RFC6105">[RFC6105]</a>) can cause requesting routers to configure network extension parameters. It also ensures that Allocating Routers can continue to multicast RAs suitable for all listening nodes.</p>
+<p id="rfc.section.2.p.3">A Requesting Node MAY send a unicast Network Extension Solicitation (NES) to the link-local address of any router to which is has routes with non-zero preferred lifetimes. Typically, this request can be sent after a node has received, processed, and accepted a suitable RA.</p>
+<p id="rfc.section.2.p.4">The NES MUST contain either one or more PIOs indicating the desired prefix(es) or length requested, or a PVD container option containing the same.</p>
+<p id="rfc.section.2.p.5">An Allocating Router MAY send a unicast Network Extension Allocation message to any node on-link. Typically this will be in response to an NES, though an allocation may be made to a node (and the node informed via NEA) unilaterally by the Allocating Router. As an example of the latter case, a router may respond to an RS with an RA (most likely unicast) followed immediately by a unicast NEA. [Why support unsolicited NEA?]</p>
+<p/>
 <h1 id="rfc.section.3"><a href="#rfc.section.3">3.</a> <a href="#netext_msg" id="netext_msg">Network Extension Message</a></h1>
 <div id="rfc.figure.1"/>
 <div id="format"/>
@@ -490,6 +529,8 @@
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
 |                           Reserved                            |
 +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+|   Options ...
++-+-+-+-+-+-+-+-+-+-+-+-
             </pre>
 <p/>
 <p class="figure">Figure 1: IPv6 NDP Network Extension Message format</p>
@@ -503,26 +544,183 @@
   <dt>Hop Limit</dt>
   <dd style="margin-left: 8">255</dd>
 </dl>
-
-<p> </p>
 <p id="rfc.section.3.p.2">ICMP Fields: </p>
 
 <dl>
   <dt>Type      </dt>
-  <dd style="margin-left: 8">(8 bits) TBD (IANA)</dd>
+  <dd style="margin-left: 8">(8 bits) ICMPV6_TYPE_NE_TBD (IANA)</dd>
   <dt>Code      </dt>
-  <dd style="margin-left: 8">(8 bits) TBD (IANA)</dd>
+  <dd style="margin-left: 8">(8 bits) The type of request Code:<dl><dt>Network Extension Solicitation (0)</dt><dd style="margin-left: 8">The Network Extension Solicitation (NES) is sent by the Requesting Node to potential Allocating Router. It is sent to the link-local address from which an RA was received (processed and accepted).</dd><dt>Network Extension Allocation (1)</dt><dd style="margin-left: 8">The Network Extension Allocation (NEA) is sent in response to NES by an Allocating Router to Requesting Node or by an Allocating Router to any node on the link.</dd><dt>Network Extension Report (2)</dt><dd style="margin-left: 8">The Network Extension Report (NER) is sent by Allocating Router to Request Node or to All_Network_Extension_Requesting_Routers.</dd></dl></dd>
   <dt>Checksum  </dt>
   <dd style="margin-left: 8">(16 bits) The ICMP checksum; see <a href="#RFC4443">[RFC4443]</a></dd>
   <dt>Reserved  </dt>
-  <dd style="margin-left: 8">32 bit unused field.  It MUST be initialized to zero by the sender and MUST be ignored by the receiver.</dd>
+  <dd style="margin-left: 8">32 bit unused field. It MUST be initialized to zero by the sender and MUST be ignored by the receiver.</dd>
+  <dt>Possible options  </dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Prefix Information Option (PIO):</dt>
+      <dd style="margin-left: 8">May be included in NES, NEA (and NER?). Multiple PIOs can be included in the same message. There may be zero or more RA options included along with PIO that are valid as part of the Router Advertisement to convey additional configuration such as RIO, DNS Server list..? in the NEA message.</dd>
+      <dt>PvD ID Option:</dt>
+      <dd style="margin-left: 8">May be included in NES, NEA (and NER?).</dd>
+      <dt>Route Information Option(RIO):</dt>
+      <dd style="margin-left: 8">May be included in NEA.</dd>
+      <dt>Nonce option:</dt>
+      <dd style="margin-left: 8">May be included in NES, NER, NEA.</dd>
+    </dl>
+  </dd>
 </dl>
+<h1 id="rfc.section.3.1"><a href="#rfc.section.3.1">3.1.</a> <a href="#solicitation" id="solicitation">Network Extension Solicitation</a></h1>
+<p id="rfc.section.3.1.p.1">The Network Extension Solicitation(NES) message is unicast message sent by Requesting Nodes to Allocating Router from which an RA was received, processed and accepted. The Requesting Node initiates NES message to request for a dedicated prefix or to re-confirm validity of the prefixes allocated to it. NES may be triggered in response to NER message from the Allocating Router.</p>
+<p/>
 
-<p> </p>
-<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> <a href="#solicitation" id="solicitation">Network Extension Solicitation</a></h1>
-<p id="rfc.section.4.p.1">Code: 0 Rules for Requesting Nodes - source address must be a link-local address of the interface - destination address must be the link-local address from which an RA was received (processed and accepted).  </p>
+<dl>
+  <dt>IP fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Source Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Requesting Node.</dd>
+      <dt>Destination Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Allocating Router learnt from RA received, processed and accepted.</dd>
+    </dl>
+  </dd>
+  <dt>ICMP Fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Type </dt>
+      <dd style="margin-left: 8">ICMPV6_TYPE_NE_TBD (IANA)</dd>
+      <dt>Code  </dt>
+      <dd style="margin-left: 8">Network Extension Solicitation (0)</dd>
+    </dl>
+  </dd>
+  <dt>Options</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>PIO Option(s):</dt>
+      <dd style="margin-left: 8">PIO options as received in the RA or PIO option with the length of the desired dedicated prefix or PIO options allocated to the Requesting Node (with valid lifetime set to remaining lifetime?).</dd>
+      <dt>PVD ID Option:</dt>
+      <dd style="margin-left: 8">PVD ID container option as defined in <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a> received in the RA with the PIO options contained within or previously allocated to the Requesting Node.</dd>
+      <dt>Nonce Option:</dt>
+      <dd style="margin-left: 8">Nonce option as defined in <a href="#RFC3971">[RFC3971]</a> with the nonce value containing a random number generated by the Requesting Node. If the NES is triggered in response to NER then the nonce value is populated with the value of the Nonce Option received in NER.</dd>
+    </dl>
+  </dd>
+</dl>
+<h1 id="rfc.section.3.1.1"><a href="#rfc.section.3.1.1">3.1.1.</a> Requesting Node behavior</h1>
+<p id="rfc.section.3.1.1.p.1">The Requesting Node creates and transmits NES message to a router after it has received, processed, and accepted a suitable RA. The Requesting Node selects the routers for transmitting NES based on the contents of PIOs and/or PVD ID options in the RA message. The Requesting Node creates and transmits NES towards selected router(s) in the following scenarios:</p>
+
+<ol>
+  <li>Initial request: When it requires a dedicated prefix to be assigned.</li>
+  <li>To verify validity of an already allocated dedicated prefix:<ol><li>when the prefix's invalidation timer is about to expire.</li><li>after the Requesting Node reboots,</li><li>link towards the Allocating Router flaps.</li></ol></li>
+  <li>In response to NER message received from the Allocating Router.</li>
+</ol>
+<p id="rfc.section.3.1.1.p.2">The NES message created MUST contain PIO options and/or PVD ID options containing PIO options:</p>
+
+<ol>
+  <li>As received in the RA to request the prefix to be dedicated OR</li>
+  <li>PIO option with the length of the desired dedicated prefix OR</li>
+  <li>PIO options allocated to the Requesting Node with Valid Lifetime set to remaining lifetime since the prefix was allocated.</li>
+</ol>
+
+<p>The NES message MAY include a Nonce Option: </p>
+
+<ol>
+  <li>With the nonce value containing a random number that it expects to be repeated in the corresponding NEA message. </li>
+  <li>If the NES message is in response to an NER from the router and that NER contained a Nonce Option. In this case the Nonce Option value MUST be same as that received in the NER.</li>
+</ol>
+<h1 id="rfc.section.3.1.2"><a href="#rfc.section.3.1.2">3.1.2.</a> Allocating Router behavior</h1>
+<p id="rfc.section.3.1.2.p.1">When an Allocating Router receives NES message containing PIO option or PVD ID option containing PIO option from a Requesting Node to which it is authorized to allocate prefixes, it processes the message to create and send NEA message. Else it should silently discard the received NES message. </p>
+<p id="rfc.section.3.1.2.p.2">Allocating router MUST start and complete Neighbor Unreachability Detection (NUD) for the Requesting Node before selecting and allocating requested prefixes. If Allocating Router after performing NUD detects that the Requesting Node is unreachable it silently discards the NES message.</p>
+<h1 id="rfc.section.3.2"><a href="#rfc.section.3.2">3.2.</a> Network Extension Allocation</h1>
+<p id="rfc.section.3.2.p.1">The Network Extension Allocation (NEA) message is an unicast message sent in response to NES by an Allocating Router to Requesting Node or by an Allocating Router to any node on the link. The NEA message contains options to provide prefix data or hint about the unavailability of the requested prefix. </p>
+
+<dl>
+  <dt>IP fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Source Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Allocating Router.</dd>
+      <dt>Destination Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Requesting Node received in the source of NES message or source in RS.</dd>
+    </dl>
+  </dd>
+  <dt>ICMP Fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Type </dt>
+      <dd style="margin-left: 8">ICMPV6_TYPE_NE_TBD (IANA)</dd>
+      <dt>Code  </dt>
+      <dd style="margin-left: 8">Network Extension Allocation (1)</dd>
+    </dl>
+  </dd>
+  <dt>Options</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>PIO Option(s):</dt>
+      <dd style="margin-left: 8">PIO options containing the dedicated prefix allocated to the Requesting Node. If no dedicated prefix is available then a PIO with ::/0 prefix is returned. If the PIO with ::/0 prefix contains non-zero lifetime then that SHOULD be used as a hint by the Requesting Node for the shortest interval to retry NES again. If the PIO with ::/0 prefix contains zero lifetime then the Requesting Node SHOULD NOT send any more NES to the Allocating Router until it receives NER from the Allocating Router.</dd>
+      <dt>PVD ID Option:</dt>
+      <dd style="margin-left: 8">PVD ID container option as defined in <a href="#I-D.ietf-intarea-provisioning-domains">[I-D.ietf-intarea-provisioning-domains]</a> containing PIO with dedicated prefix. If no dedicated prefix is available in the PVD ID requested then a PIO with ::/0 prefix is returned. If the PIO with ::/0 prefix contains non-zero lifetime then that should be used as a hint by the Requesting Node for the shortest interval to retry NES again.  If the PIO with ::/0 prefix contains zero lifetime then the Requesting Node SHOULD NOT send any more NES to the Allocating Router until it receives NER from the Allocating Router.</dd>
+      <dt>Nonce Option:</dt>
+      <dd style="margin-left: 8">Nonce option as defined in <a href="#RFC3971">[RFC3971]</a> with the nonce value containing a random number received in the corresponding NES message.</dd>
+      <dt>Route Information Option(RIO):</dt>
+      <dd style="margin-left: 8"/>
+    </dl>
+  </dd>
+</dl>
+<h1 id="rfc.section.3.2.1"><a href="#rfc.section.3.2.1">3.2.1.</a> Allocating Router behavior</h1>
+<p id="rfc.section.3.2.1.p.1">When an Allocating Router receives NES message containing PIO option or PVD ID option containing PIO option from a Requesting Node to which it is authorized to allocate prefixes, it performs NUD for the Requesting Node. After NUD completes it may select and assign requested prefixes by creating and sending NEA message to the Requesting Node. The Allocating Router MAY include additional configuration options such as RIO option along with the allocated prefixes in the NEA message. </p>
+<p id="rfc.section.3.2.1.p.2">If the Allocating Router is unable to assign requested prefixes it returns a NEA message containing unavailable prefixes with zero lifetime. If the Allocating Router is not authorized to return any prefix to the Requesting node it returns NEA with PIO option containing ::/0 prefix with zero lifetime. On transient failure to return prefixes perhaps due to resource exhaustion on Allocating Router it should return NEA with PIO option containing ::/0 with a non-zero lifetime as a hint to the Requesting Node to retry allocation by sending NES after a period specified by the lifetime.</p>
+<p id="rfc.section.3.2.1.p.3">If the Nonce option is received in the corresponding NES message it MUST be copied in the NEA message sent to the Requesting Node.</p>
+<h1 id="rfc.section.3.2.2"><a href="#rfc.section.3.2.2">3.2.2.</a> Requesting Node behavior</h1>
+<p id="rfc.section.3.2.2.p.1">The Requesting Node must silently discard NEA received from a router whose RA has not been processed and accepted. If the Requesting Node included Nonce option in the NES message requesting the prefix assignment, it MAY validate the Nonce option received in NEA against the latest outstanding NES and discard the NEA on mismatch.</p>
+<p id="rfc.section.3.2.2.p.2">When a node receives NEA from a router whose RA has been processed and accepted, it processes the received prefix(es). It maintains the allocated dedicated prefixes and invalidation timer for the prefixes based on the lifetime received in the PIO option.  It maintains and applies other configuration options corresponding to each of the prefixes received.</p>
+<p id="rfc.section.3.2.2.p.3">If the NEA contains PIO with the requested prefix and zero lifetime then the Requesting Node should treat the prefix as not a dedicated prefix. It the prefix was allocated in an earlier NEA message the Requesting Node MUST invalidate the prefix and corresponding configuration options.</p>
+<p id="rfc.section.3.2.2.p.4">If the NEA contains PIO with ::/0 prefix and zero lifetime then it SHOULD stop sending NES message to retry prefix allocation till a NER message is received from the Allocating Router.</p>
+<p id="rfc.section.3.2.2.p.5">If the NEA contains PIO with ::/0 prefix and non-zero lifetime then it MAY retry requesting for the prefix by sending NES message after a period specified by the lifetime.</p>
+<h1 id="rfc.section.3.3"><a href="#rfc.section.3.3">3.3.</a> Network Extension Report</h1>
+<p id="rfc.section.3.3.p.1">The Network Extension Report (NER) message is sent by an Allocating Router to a specific node on the link or to All_Network_Extension_Requesting_Routers address to trigger possible NES exchange. This can be sent (by Allocating Router to reconstruct its state on reboot for previously allocated prefixes? and ) when an Allocating Router has dedicated prefixes to offer.</p>
+
+<dl>
+  <dt>IP fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Source Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Allocating Router.</dd>
+      <dt>Destination Address</dt>
+      <dd style="margin-left: 8">The link-local address of the Requesting Node received in the source of a NES message or All_Network_Extension_Requesting_Routers address.</dd>
+    </dl>
+  </dd>
+  <dt>ICMP Fields</dt>
+  <dd style="margin-left: 8">
+    <dl>
+      <dt>Type </dt>
+      <dd style="margin-left: 8">ICMPV6_TYPE_NE_TBD (IANA)</dd>
+      <dt>Code  </dt>
+      <dd style="margin-left: 8">Network Extension Report (2)</dd>
+    </dl>
+  </dd>
+</dl>
+<h1 id="rfc.section.3.3.1"><a href="#rfc.section.3.3.1">3.3.1.</a> Allocating Router behavior</h1>
+<p id="rfc.section.3.3.1.p.1">sends NER to trigger NES, to gather prefixes in use and remaining lifetime, may contain Nonce </p>
+<h1 id="rfc.section.3.3.2"><a href="#rfc.section.3.3.2">3.3.2.</a> Requesting Node behavior</h1>
+<p id="rfc.section.3.3.2.p.1">no RA silently discard</p>
+<p id="rfc.section.3.3.2.p.2">send NES</p>
+<p id="rfc.section.3.3.2.p.3">Include nonce</p>
+<h1 id="rfc.section.4"><a href="#rfc.section.4">4.</a> Security Considerations</h1>
+<p id="rfc.section.4.p.1">- Rogue Allocating Routers can issue bogus prefixes to requestors.  This may cause denial of service due to unreachability. Security model offered by RA guard should mitigate this.</p>
+<p id="rfc.section.4.p.2">- Rogue Requesting Nodes may consume resources from legitimate Allocating Routers, thus denying others the use of the prefixes.The use of SEND (<a href="#RFC3971">[RFC3971]</a>) is recommended to protect the integrity of the messages and authenticate the identity of the Requesting Nodes.</p>
+<p id="rfc.section.4.p.3">It is recommended to configure control plane policing on Allocating Routers to rate limit processing of NES messages.</p>
 <h1 id="rfc.section.5"><a href="#rfc.section.5">5.</a> <a href="#iana" id="iana">IANA Considerations</a></h1>
-<p id="rfc.section.5.p.1">Request IANA to allocate a link-local multicast address, ff02::XXX, All_Network_Extension_Requesting_Routers.  </p>
+<p id="rfc.section.5.p.1">Request IANA to allocate a link-local multicast address, ff02::XXX, All_Network_Extension_Requesting_Routers.</p>
+<p id="rfc.section.5.p.2">This document requests for a new ICMPv6 type ICMPV6_TYPE_NE_TBD to be allocated from "ICMP Type Numbers" registry in the informational message range.</p>
+<p id="rfc.section.5.p.3">The following codes are requested from the ICMPV6_TYPE_NE_TBD subregistry: </p>
+
+<dl>
+  <dt>0</dt>
+  <dd style="margin-left: 8">Network Extension Solicitation</dd>
+  <dt>1</dt>
+  <dd style="margin-left: 8">Network Extension Allocation</dd>
+  <dt>2</dt>
+  <dd style="margin-left: 8">Network Extension Report</dd>
+</dl>
 <h1 id="rfc.references"><a href="#rfc.references">6.</a> References</h1>
 <h1 id="rfc.references.1"><a href="#rfc.references.1">6.1.</a> Normative References</h1>
 <table>
@@ -538,6 +736,12 @@
         <b id="RFC2119">[RFC2119]</b>
       </td>
       <td class="top"><a>Bradner, S.</a>, "<a href="http://tools.ietf.org/html/rfc2119">Key words for use in RFCs to Indicate Requirement Levels</a>", BCP 14, RFC 2119, DOI 10.17487/RFC2119, March 1997.</td>
+    </tr>
+    <tr>
+      <td class="reference">
+        <b id="RFC3971">[RFC3971]</b>
+      </td>
+      <td class="top"><a>Arkko, J.</a>, <a>Kempf, J.</a>, <a>Zill, B.</a> and <a>P. Nikander</a>, "<a href="http://tools.ietf.org/html/rfc3971">SEcure Neighbor Discovery (SEND)</a>", RFC 3971, DOI 10.17487/RFC3971, March 2005.</td>
     </tr>
     <tr>
       <td class="reference">
@@ -571,7 +775,7 @@
   </tbody>
 </table>
 <h1 id="rfc.authors">
-  <a href="#rfc.authors">Author's Address</a>
+  <a href="#rfc.authors">Authors' Addresses</a>
 </h1>
 <div class="avoidbreak">
   <address class="vcard">
@@ -593,6 +797,27 @@
 	  <span class="country-name vcardline">Japan</span>
 	</span>
 	
+  </address>
+</div><div class="avoidbreak">
+  <address class="vcard">
+	<span class="vcardline">
+	  <span class="fn">Shwetha Bhandari</span> 
+	  <span class="n hidden">
+		<span class="family-name">Bhandari</span>
+	  </span>
+	</span>
+	<span class="org vcardline">Cisco</span>
+	<span class="adr">
+	  
+	  <span class="vcardline">
+		<span class="locality"></span> 
+		<span class="region"></span>
+		<span class="code"></span>
+	  </span>
+	  <span class="country-name vcardline"></span>
+	</span>
+	<span class="vcardline">EMail: <a href="mailto:shwethab@cisco.com">shwethab@cisco.com</a></span>
+
   </address>
 </div>
 
